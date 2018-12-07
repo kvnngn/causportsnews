@@ -6,7 +6,7 @@
 - Nodemon: npm install -g nodemon
 ## Launch api
 
-1. Run in terminal ```npm run start```
+1. Run in terminal ```npm run win_debug```
 
 ##Ajout d'une nouvelle table / model ou juste faire une migration
 
