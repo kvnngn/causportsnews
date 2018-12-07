@@ -1,17 +1,15 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var User = sequelize.define('users', {
+  var Admin = sequelize.define('admins', {
     email: DataTypes.STRING(100),
     password: DataTypes.STRING(200),
-    civility: DataTypes.ENUM('Mr', 'Mrs'),
     firstname: DataTypes.STRING(100),
     lastname: DataTypes.STRING(100),
   }, {freezeTableName: true,
     timestamps: false});
-    User.associate = function(models) {
+    Admin.associate = function(models) {
     // associations can be defined here
-    models.User.hasMany(models.Comment);
-    models.User.hasMany(models.Favorite);
+    models.Admin.hasMany(models.Article);
   };
-  return User;
+  return Admin;
 };

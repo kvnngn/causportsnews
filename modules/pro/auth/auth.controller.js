@@ -68,8 +68,6 @@ module.exports = {
         if(email == null || password == null) {
             return res.status(400).json({'error': 'missing parameters'});
         }
-        console.log(email);
-        console.log(password);
 
         return models.User.find({
             exclude: ['password'],
@@ -77,7 +75,6 @@ module.exports = {
         })
         .then(function(userFound) {
             if(userFound) {
-                console.log(userFound);
                 bcrypt.compare(password, userFound.password, function(errBycrypt, resBycrypt) {
                     if(resBycrypt) {
                         return res.status(200).json({

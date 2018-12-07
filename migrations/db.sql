@@ -1,13 +1,12 @@
 CREATE TABLE IF NOT EXISTS `admins`(
   `id` INT NOT NULL AUTO_INCREMENT,
-  `login` VARCHAR(20) NOT NULL,
   `password` VARCHAR(200) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `firstname` VARCHAR(100) NOT NULL,
   `lastname` VARCHAR(100) NOT NULL,
   `creation_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(`id`),
-  UNIQUE KEY `login`(`login`)
+  UNIQUE KEY `email`(`email`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 0 DEFAULT CHARSET = utf8;
 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -27,8 +26,9 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `title` VARCHAR(255) DEFAULT NULL,
   `introduction` VARCHAR(255) DEFAULT NULL,
   `content` VARCHAR(255) DEFAULT NULL,
+  `type` ENUM('Football', 'Basket-ball', 'American football', 'Taekwondo', 'Tennis table') NOT NULL,
+  `img` BLOB NOT NULL,
   `creation_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `img_blob` BLOB NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
