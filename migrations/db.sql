@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `introduction` VARCHAR(255) DEFAULT NULL,
   `content` VARCHAR(255) DEFAULT NULL,
   `type` ENUM('Football', 'Basket-ball', 'American football', 'Taekwondo', 'Tennis table') NOT NULL,
-  `img` BLOB NOT NULL,
+  `img` LONGBLOB NOT NULL,
   `creation_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
