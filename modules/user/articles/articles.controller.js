@@ -20,7 +20,8 @@ module.exports = {
             .catch(next);
 
         function getArticles() {
-            return models.Article.findAll()
+            return models.Article.findAll({attributes: ['title', 'introduction', 'content','img', 'creation_date']}
+            )
                 .then((_articles) => {
                     articles = _articles
                 })
