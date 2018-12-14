@@ -1,16 +1,18 @@
-CREATE TABLE IF NOT EXISTS `admins`(
+CREATE TABLE IF NOT EXISTS `articles` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `password` VARCHAR(200) NOT NULL,
-  `email` VARCHAR(100) NOT NULL,
-  `firstname` VARCHAR(100) NOT NULL,
-  `lastname` VARCHAR(100) NOT NULL,
-  `creation_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY(`id`),
-  UNIQUE KEY `email`(`email`)
-) ENGINE = InnoDB AUTO_INCREMENT = 0 DEFAULT CHARSET = utf8;
+  `title` VARCHAR(255) DEFAULT NULL,
+  `introduction` VARCHAR(255) DEFAULT NULL,
+  `content` VARCHAR(255) DEFAULT NULL,
+  `user_id` INT NOT NULL,
+  `type` ENUM('Football', 'Basket-ball', 'American football', 'Taekwondo', 'Tennis table') NOT NULL,
+  `img` LONGBLOB NOT NULL,
+  `creation_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `type` ENUM('User', 'Admin') NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `password` VARCHAR(200) NOT NULL,
   `civility` ENUM('Mr', 'Mrs') NOT NULL,
@@ -19,17 +21,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(`id`),
   UNIQUE KEY email(`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `articles` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) DEFAULT NULL,
-  `introduction` VARCHAR(255) DEFAULT NULL,
-  `content` VARCHAR(255) DEFAULT NULL,
-  `type` ENUM('Football', 'Basket-ball', 'American football', 'Taekwondo', 'Tennis table') NOT NULL,
-  `img` LONGBLOB NOT NULL,
-  `creation_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `comments` (

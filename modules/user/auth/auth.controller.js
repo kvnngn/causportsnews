@@ -69,26 +69,32 @@ module.exports = {
             return res.status(400).json({'error': 'missing parameters'});
         }
 
-        return models.User.find({
-            exclude: ['password'],
-             where: {email: email}
-        })
-        .then(function(userFound) {
-            if(userFound) {
-                bcrypt.compare(password, userFound.password, function(errBycrypt, resBycrypt) {
-                    if(resBycrypt) {
-                        return res.status(200).json({
-                            'user': userFound,
-                            'token': jwtUtils.generateTokenForUser(userFound)
+        return Promise.resolve()
+            .then(login())
+            .catch(next);
+
+        function login() {
+            return models.User.find({
+                exclude: ['password'],
+                where: {email: email}
+            })
+                .then(function(userFound) {
+                    if(userFound) {
+                        bcrypt.compare(password, userFound.password, function(errBycrypt, resBycrypt) {
+                            if(resBycrypt) {
+                                return res.status(200).json({
+                                    'user': userFound,
+                                    'token': jwtUtils.generateTokenForUser(userFound)
+                                });
+                            }
+                            else {return res.status(403).json({"error": "invalid password"});}
                         });
                     }
-                    else {return res.status(403).json({"error": "invalid password"});}
+                    else {return res.status(404).json({'error': 'user not exist in DB'});}
+                })
+                .catch(function(err) {
+                    return res.status(500).json({'error': 'unable to verify user'});
                 });
-            }
-            else {return res.status(404).json({'error': 'user not exist in DB'});}
-        })
-        .catch(function(err) {
-            return res.status(500).json({'error': 'unable to verify user'});
-        });
+        }
     }
 };

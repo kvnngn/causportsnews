@@ -14,22 +14,46 @@ module.exports = {
 
         return Promise.resolve()
             .then(getArticles)
-            .then(() => {res.json(articles)})
+            .then(() => {
+                res.json(articles)
+            })
             .catch(next);
 
         function getArticles() {
-           return models.Article.findAll()
-               .then((articles) => {console.log(articles)})
+            return models.Article.findAll()
+                .then((_articles) => {
+                    articles = _articles
+                })
+        }
+    },
+    getArticleById: function (req, res, next) {
+        debug("getArticleById");
+
+        let article;
+
+        return Promise.resolve()
+            .then(getArticle)
+            .then(() => {
+                res.json(article)
+            })
+            .catch(next);
+
+        function getArticle() {
+            return models.Article.findById(req.body.id)
+                .then((_article) => {
+                    article = _article;
+                })
         }
     },
     create: function (req, res, next) {
         debug("create");
-
+        console.log(req.body);
         var title = req.body.title;
         var introduction = req.body.introduction;
         var content = req.body.content;
         var type = "Football";
         var img = req.body.img;
+        var user_id = req.body.user_id;
 
         if (!title || !introduction || !content || !type || !img) {
             return res.status(400).json({'error': 'missing paramaters'});
@@ -44,6 +68,7 @@ module.exports = {
             content: content,
             type: type,
             img: img,
+            user_id: user_id,
         })
             .then(function (newArticle) {
                 return res.status(201).json({'articleId': newArticle.id})

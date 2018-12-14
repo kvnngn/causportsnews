@@ -30,7 +30,7 @@ function initSequelize() {
         config.development.password,
         {
             dialect: config.development.dialect,
-            define: {underscored: true},
+            define: {underscored: true, timestamps: false},
             logging: config.development.logging,
             host: config.development.host,
             maxConcurrentQueries: config.development.connectionLimit
@@ -43,7 +43,6 @@ function loadModels() {
     models.Comment= sequelize["import"](path.join(__dirname, "./comment"));
     models.Article= sequelize["import"](path.join(__dirname, "./article"));
     models.Favorite= sequelize["import"](path.join(__dirname, "./favorite"));
-    models.Admin= sequelize["import"](path.join(__dirname, "./admin"));
 }
 
 function associateModels() {
