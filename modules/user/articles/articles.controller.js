@@ -20,7 +20,9 @@ module.exports = {
             .catch(next);
 
         function getArticles() {
-            return models.Article.findAll({attributes: ['title', 'introduction', 'content','img', 'creation_date']}
+            return models.Article.findAll({
+                    attributes: ['id', 'title', 'introduction', 'content', 'img', 'creation_date']
+                }
             )
                 .then((_articles) => {
                     articles = _articles
@@ -40,7 +42,17 @@ module.exports = {
             .catch(next);
 
         function getArticle() {
-            return models.Article.findById(req.body.id)
+            return models.Article.findById(req.params.id,
+                {
+                    attributes: ['id', 'title', 'introduction', 'content', 'img', 'creation_date'],
+                    include: [{
+                        model: models.Comment,
+                        attributes: ['content',  'creation_date'],
+                        include: [{
+                            model: models.User
+                        }]
+                    }]
+                })
                 .then((_article) => {
                     article = _article;
                 })

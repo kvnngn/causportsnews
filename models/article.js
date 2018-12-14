@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
             foreingKey: {
                 allowNull: false
             }
+        });
+        models.Article.hasMany(models.Comment, {
+            foreingKey: {
+                allowNull: false
+            }
         })
     };
     return Article;
