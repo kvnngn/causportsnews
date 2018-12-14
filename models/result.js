@@ -7,10 +7,8 @@ module.exports = (sequelize, DataTypes) => {
         score_2: DataTypes.STRING,
         logo_1: DataTypes.BLOB,
         logo_2: DataTypes.BLOB,
-        user_id: DataTypes.INTEGER,
     }, {freezeTableName: true,
         timestamps: false});
-    Result.associate = function(models) {
-    };
+    Result.associate = function(models) {};
     return Result;
 };

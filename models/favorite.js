@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
     });
     Favorite.associate = function (models) {
         // associations can be defined here
+        models.Favorite.belongsTo(models.Article, {
+            foreingKey: {
+                allowNull: false
+            }
+        });
         models.Favorite.belongsTo(models.User, {
             foreingKey: {
                 allowNull: false
