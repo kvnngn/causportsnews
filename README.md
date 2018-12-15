@@ -1,4 +1,4 @@
-﻿## Pré-requis
+﻿## Pre-requisites
 
 - NodeJS: (>=8.9.0) - https://nodejs.org/
 - Wamp : http://www.wampserver.com/en/download-wampserver-64bits/
@@ -6,12 +6,13 @@
 - Nodemon: npm install -g nodemon
 ## Launch api
 
-1. Run in terminal ```npm run win_debug```
+1. Run in terminal ```npm install```
+2. Run in terminal ```npm run win_debug```
+3. Then in another terminal ```npm run test``` to feed your database
 
-##Ajout d'une nouvelle table / model ou juste faire une migration
+##Add column / model or do the migration
 
-/!\ Il est nécessaire de créer les bases de données qui sont utilisée par cau-sports-news-api !
-(database_development_mandareen, database_test_mandareen, database_production_mandareen)
+/!\ It is mandatory to create the database "causportsnews" for cau-sports-news-api !
 
 -  sequelize db:migrate
 
