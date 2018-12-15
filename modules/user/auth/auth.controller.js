@@ -10,14 +10,11 @@ module.exports = {
 
         var email = req.body.email;
         var password = req.body.password;
-        var civ = req.body.civility;
         var firstname = req.body.firstname;
         var lastname = req.body.lastname;
-        var city = req.body.city;
-        var phone = req.body.phone;
-        var type = req.body.type;
 
-        if(!email || !password || !civ || !firstname || !lastname || !city || !phone) {
+
+        if(!email || !password || !firstname || !lastname) {
             return res.status(400).json({'error': 'missing paramaters'});
         }
 
@@ -34,15 +31,14 @@ module.exports = {
                     var newUser = models.User.create({
                         email: email,
                         password: bcryptedPassword,
-                        civility: civ,
                         firstname: firstname,
-                        lastname: lastname,
-                        city: city,
-                        phone: phone
+                        lastname: lastname
                     })
                     .then(function(newUser) {
-                        return res.status(201).json({'userId': newUser.id})
-                    })
+                        return res.status(200).json({
+                            'user': newUser,
+                            'token': jwtUtils.generateTokenForUser(newUser)
+                        });                    })
                     .catch(function(err) {
                         console.log('Error add user');
                         console.log('Log : ' + err);
@@ -50,7 +46,7 @@ module.exports = {
                     });
                 });
             } else {
-                return res.status(409).json({'error': 'user already exist'});
+                return res.status(409).json({'error': 'Email already used'});
             }
         })
         .catch(function(err) {
