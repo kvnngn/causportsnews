@@ -21,7 +21,7 @@ module.exports = {
 
         function getArticles() {
             return models.Article.findAll({
-                    attributes: ['id', 'title', 'introduction', 'content', 'img', 'creation_date']
+                    attributes: ['id', 'title', 'introduction', 'content', 'img', 'creation_date', 'type']
                 }
             )
                 .then((_articles) => {
@@ -47,7 +47,38 @@ module.exports = {
                     attributes: ['id', 'title', 'introduction', 'content', 'img', 'creation_date'],
                     include: [{
                         model: models.Comment,
-                        attributes: ['content',  'creation_date'],
+                        attributes: ['content', 'creation_date'],
+                        include: [{
+                            model: models.User
+                        }]
+                    }]
+                })
+                .then((_article) => {
+                    article = _article;
+                })
+        }
+    },
+    getArticleByCategorie: function (req, res, next) {
+        debug("getArticleByCategorie");
+
+        let article;
+        let categorie =  req.params.categorie;
+        console.log(categorie);
+        return Promise.resolve()
+            .then(getArticle)
+            .then(() => {
+                res.json(article)
+            })
+            .catch(next);
+
+        function getArticle() {
+            return models.Article.findAll(
+                {
+                    where: {type: categorie},
+                    attributes: ['id', 'title', 'introduction', 'content', 'img', 'creation_date', 'type'],
+                    include: [{
+                        model: models.Comment,
+                        attributes: ['content', 'creation_date'],
                         include: [{
                             model: models.User
                         }]
