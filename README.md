@@ -7,6 +7,7 @@
 ## Launch api
 
 1. Run in terminal ```npm install```
+1. Run in terminal ```sequelize db:migrate``` to tables in your database
 2. Run in terminal ```npm run win_debug```
 3. Then in another terminal ```npm run test``` to feed your database
 
