@@ -12,9 +12,10 @@ module.exports = {
         var password = req.body.password;
         var firstname = req.body.firstname;
         var lastname = req.body.lastname;
+        var type = req.body.type;
 
 
-        if(!email || !password || !firstname || !lastname) {
+        if(!email || !password || !firstname || !lastname || !type) {
             return res.status(400).json({'error': 'missing paramaters'});
         }
 
@@ -25,14 +26,14 @@ module.exports = {
             where: {email: email}
         })
         .then(function(userFound) {
-            console.log(userFound)
             if(!userFound) {
                 bcrypt.hash(password, 5, function(err, bcryptedPassword) {
                     var newUser = models.User.create({
                         email: email,
                         password: bcryptedPassword,
                         firstname: firstname,
-                        lastname: lastname
+                        lastname: lastname,
+                        type: type
                     })
                     .then(function(newUser) {
                         return res.status(200).json({
