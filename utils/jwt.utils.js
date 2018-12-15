@@ -8,7 +8,6 @@ module.exports = {
     },
     // User part
     generateTokenForUser: function(proData){
-        console.log('generateTokenForUser')
         return jwt.sign({
             proId: proData.id
         },
@@ -20,7 +19,6 @@ module.exports = {
 
     // Admin part
     generateTokenForAdmin: function(adminData){
-        console.log('generateTokenForAdmin')
         return jwt.sign({
             adminId: adminData.id,
             access: "full"
@@ -31,7 +29,6 @@ module.exports = {
         })
     },
     generateTokenForPasswdAdmin: function(adminData){
-        console.log('generateTokenForPasswdAdmin')
         return jwt.sign({
             adminId: adminData.id,
             access: "limited"
@@ -42,7 +39,6 @@ module.exports = {
         })
     },
     getAdminId:function(auth, secure) {
-        console.log('getAdminId')
         var id = -1;
         var token = module.exports.parseAuth(auth);
         if (token != null)

@@ -54,6 +54,7 @@ module.exports = {
                     }]
                 })
                 .then((_article) => {
+                    console.log(req.params.id)
                     article = _article;
                 })
         }
@@ -62,7 +63,7 @@ module.exports = {
         debug("getArticleByCategorie");
 
         let article;
-        let categorie =  req.params.categorie;
+        let categorie = req.params.categorie;
         console.log(categorie);
         return Promise.resolve()
             .then(getArticle)
@@ -91,11 +92,11 @@ module.exports = {
     },
     create: function (req, res, next) {
         debug("create");
-        console.log(req.body);
+        // console.log(req.body);
         var title = req.body.title;
         var introduction = req.body.introduction;
         var content = req.body.content;
-        var type = "Football";
+        var type = req.body.type
         var img = req.body.img;
         var user_id = req.body.user_id;
 
@@ -103,9 +104,6 @@ module.exports = {
             return res.status(400).json({'error': 'missing paramaters'});
         }
 
-        // TODO verification
-
-        console.log(req.body);
         return models.Article.create({
             title: title,
             introduction: introduction,
