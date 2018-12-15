@@ -25,8 +25,15 @@ module.exports = {
                     include: [{model: models.User}]
                 })
                 .then((_articles) => {
-                    articles = _articles
+                    _articles.forEach((article) => {
+                        article.img = convertArrayBytesToBase64(article.img);
+                    });
+                    articles = _articles;
                 })
+        }
+
+        function convertArrayBytesToBase64(img) {
+            return new Uint8Array(img).reduce((data, byte) => data + String.fromCharCode(byte), '');
         }
     },
     getArticleById: function (req, res, next) {
@@ -59,25 +66,29 @@ module.exports = {
                     ]
                 })
                 .then((_article) => {
-                    console.log(req.params.id)
+                    _article.img = convertArrayBytesToBase64(_article.img);
                     article = _article;
                 })
         }
+
+        function convertArrayBytesToBase64(img) {
+            return new Uint8Array(img).reduce((data, byte) => data + String.fromCharCode(byte), '');
+        }
     },
-    getArticleByCategorie: function (req, res, next) {
+    getArticlesByCategorie: function (req, res, next) {
         debug("getArticleByCategorie");
 
         let article;
         let categorie = req.params.categorie;
         console.log(categorie);
         return Promise.resolve()
-            .then(getArticle)
+            .then(getArticles)
             .then(() => {
                 res.json(article)
             })
             .catch(next);
 
-        function getArticle() {
+        function getArticles() {
             return models.Article.findAll(
                 {
                     where: {type: categorie},
@@ -96,14 +107,21 @@ module.exports = {
                     ],
 
                 })
-                .then((_article) => {
-                    article = _article;
+                .then((_articles) => {
+                    _articles.forEach((article) => {
+                        article.img = convertArrayBytesToBase64(article.img);
+                    });
+                    article = _articles;
                 })
+        }
+
+        function convertArrayBytesToBase64(img) {
+            return new Uint8Array(img).reduce((data, byte) => data + String.fromCharCode(byte), '');
         }
     },
     create: function (req, res, next) {
         debug("create");
-        // console.log(req.body);
+        console.log(req.body);
         var title = req.body.title;
         var introduction = req.body.introduction;
         var content = req.body.content;

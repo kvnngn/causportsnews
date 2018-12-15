@@ -8,25 +8,33 @@ const results = [
         team1_name: "CAU FC",
         team2_name: "Libhero",
         score_1: 1,
-        score_2: 2
+        score_2: 2,
+        logo_1: "./seeders/cau_logo.png",
+        logo_2: "./seeders/cau_logo.png"
     },
     {
         team1_name: "CAU FC",
         team2_name: "Seoul FC",
         score_1: 2,
-        score_2: 2
+        score_2: 2,
+        logo_1: "./seeders/cau_logo.png",
+        logo_2: "./seeders/cau_logo.png"
     },
     {
         team1_name: "CAU FC",
         team2_name: "Gangnam FC",
         score_1: 3,
-        score_2: 2
+        score_2: 2,
+        logo_1: "./seeders/cau_logo.png",
+        logo_2: "./seeders/cau_logo.png"
     },
     {
         team1_name: "Japan",
         team2_name: "South Korea",
         score_1: 3,
-        score_2: 4
+        score_2: 4,
+        logo_1: "./seeders/japan_logo.png",
+        logo_2: "./seeders/south_korea_logo.png"
     }
 ];
 
@@ -34,12 +42,10 @@ module.exports = {
     up: function () {
         let user_id = null;
         let api = new ApiTest();
-        let img = null;
 
         return Promise.resolve()
             .then(authenticate)
-            .then(loadImg)
-            .then(createArticles);
+            .then(createResults);
 
         function authenticate() {
             return api.post('/user/auth/login', {
@@ -52,19 +58,12 @@ module.exports = {
                 });
         }
 
-        function loadImg() {
-            return new Promise((resolve, reject) => {
-                fs.readFile('./seeders/img1.jpg', (err, data) => {
-                    if (err) {
-                        return reject(err);
-                    }
-                    img = data.toString('base64');
-                    resolve(img)
-                })
-            });
+        function loadImg(img) {
+            var bitmap = fs.readFileSync(img);
+            return new Buffer(bitmap).toString('base64');
         }
 
-        function createArticles() {
+        function createResults() {
             var promises = [];
             results.map((result) => {
                 promises.push(api.post('/result/create', {
@@ -72,12 +71,11 @@ module.exports = {
                     team2_name: result.team2_name,
                     score_1: result.score_1,
                     score_2: result.score_2,
-                    logo_1: img,
-                    logo_2: img,
+                    logo_1: loadImg(result.logo_1),
+                    logo_2: loadImg(result.logo_2),
                 }))
             });
             return Promise.all(promises);
-
         }
     }
 };

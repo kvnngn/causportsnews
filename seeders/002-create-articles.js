@@ -15,6 +15,7 @@ const articles = [
             "\n" +
             "Crawford's clutch basket capped a game-ending 8-0 run for the Suns, who snapped a three-game overall losing streak. Devin Booker registered 29 points and seven assists as one of seven Phoenix players in double digits.",
         type: 'Basket-ball',
+        img: "./seeders/basket1.jpg"
     },
     {
         title: "NFL star somehow lands on his feet after mid-air flip",
@@ -23,6 +24,7 @@ const articles = [
             "\n" +
             "But then... well, just watch the clip.",
         type: 'American football',
+        img: "./seeders/nfl2.jpg"
     },
     {
         title: "5 Truths: Seattle Seahawks v Oakland Raiders generates huge buzz, Wembley still perfect for NFL",
@@ -32,6 +34,7 @@ const articles = [
             "\"It felt like a home game,” Seahawks coach Pete Carroll said. \"Not only were they so much for us, they made it hard on the other team as well. I know that Germany supports us well and the people here in Great Britain supported us as well, and I’m sure there’s a bunch of other people who came, as well as our own fans who made the trip. We’re grateful for them, it made it a very special event today.\"" +
             "The Jacksonville Jaguars have particularly made Wembley their second home, but there is no doubting its suitability for hosting the masses of UK and Europe-based NFL fans regardless of their team affiliation. From the 'tailgate' zones and the fan plazas to the stadium entertainment itself, Wembley is still the ideal place to enjoy the NFL's UK jaunts.",
         type: 'American football',
+        img: "./seeders/nfl1.jpg"
     },
     {
         title: "Paper Round: Chelsea confident over £30m Callum Wilson",
@@ -50,6 +53,7 @@ const articles = [
             "\n" +
             "The Blues face a decision next month boss Sarri having to decide if he allows the midfielder to leave or keep a frustrated player desperate to maintain his progression.",
         type: 'Football',
+        img: "./seeders/foot1.jpg"
     },
     {
         title: "Football news - Ilkay Gundogan: I know how Raheem feels... we must stay strong to beat racism",
@@ -85,6 +89,7 @@ const articles = [
             "\n" +
             "“We don’t have much time, the game is at 12.30 on Saturday, so we have to try and do our best in terms of recovery. It won’t be easy, but we will do our best. We’re playing at home and we want to get the three points and be successful.”",
         type: 'Football',
+        img: "./seeders/foot2.jpg"
     }
 ];
 
@@ -92,11 +97,9 @@ module.exports = {
     up: function () {
         let user_id = null;
         let api = new ApiTest();
-        let img = null;
 
         return Promise.resolve()
             .then(authenticate)
-            .then(loadImg)
             .then(createArticles);
 
         function authenticate() {
@@ -110,16 +113,9 @@ module.exports = {
                 });
         }
 
-        function loadImg() {
-            return new Promise((resolve, reject) => {
-                fs.readFile('./seeders/img1.jpg', (err, data) => {
-                    if (err) {
-                        return reject(err);
-                    }
-                    img = data.toString('base64');
-                    resolve(img)
-                })
-            });
+        function loadImg(img) {
+            var bitmap = fs.readFileSync(img);
+            return new Buffer(bitmap).toString('base64');
         }
 
         function createArticles() {
@@ -129,13 +125,12 @@ module.exports = {
                     title: article.title,
                     introduction: article.introduction,
                     content: article.content,
-                    img: img,
+                    img: loadImg(article.img),
                     user_id: user_id,
                     type: article.type
                 }))
             });
             return Promise.all(promises);
-
         }
     }
 };

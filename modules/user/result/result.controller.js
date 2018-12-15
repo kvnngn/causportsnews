@@ -55,8 +55,16 @@ module.exports = {
         function getArticles() {
             return models.Result.findAll()
                 .then((_results) => {
+                    _results.forEach((result) => {
+                        result.logo_1 = convertArrayBytesToBase64(result.logo_1);
+                        result.logo_2 = convertArrayBytesToBase64(result.logo_2);
+                    });
                     results = _results
                 })
+        }
+
+        function convertArrayBytesToBase64(img) {
+            return new Uint8Array(img).reduce((data, byte) => data + String.fromCharCode(byte), '');
         }
     }
 };
