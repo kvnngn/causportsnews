@@ -21,9 +21,9 @@ module.exports = {
 
         function getArticles() {
             return models.Article.findAll({
-                    attributes: ['id', 'title', 'introduction', 'content', 'img', 'creation_date', 'type']
-                }
-            )
+                    attributes: ['id', 'title', 'introduction', 'content', 'img', 'creation_date', 'type'],
+                    include: [{model: models.User}]
+                })
                 .then((_articles) => {
                     articles = _articles
                 })
@@ -45,13 +45,18 @@ module.exports = {
             return models.Article.findById(req.params.id,
                 {
                     attributes: ['id', 'title', 'introduction', 'content', 'img', 'creation_date'],
-                    include: [{
-                        model: models.Comment,
-                        attributes: ['content', 'creation_date'],
-                        include: [{
-                            model: models.User
-                        }]
-                    }]
+                    include: [
+                        {
+                            model: models.Comment,
+                            attributes: ['content', 'creation_date'],
+                            include: [{
+                                model: models.User
+                            }]
+                        },
+                        {
+                            model: models.User,
+                        }
+                    ]
                 })
                 .then((_article) => {
                     console.log(req.params.id)
@@ -77,13 +82,19 @@ module.exports = {
                 {
                     where: {type: categorie},
                     attributes: ['id', 'title', 'introduction', 'content', 'img', 'creation_date', 'type'],
-                    include: [{
-                        model: models.Comment,
-                        attributes: ['content', 'creation_date'],
-                        include: [{
-                            model: models.User
-                        }]
-                    }]
+                    include: [
+                        {
+                            model: models.Comment,
+                            attributes: ['content', 'creation_date'],
+                            include: [{
+                                model: models.User
+                            }]
+                        },
+                        {
+                            model: models.User,
+                        }
+                    ],
+
                 })
                 .then((_article) => {
                     article = _article;
