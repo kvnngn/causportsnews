@@ -9,7 +9,6 @@ const mail = require(path.resolve("./libs/mail"));
 module.exports = {
     create: function (req, res, next) {
         debug("create");
-        console.log(req.body);
 
         let team1_name = req.body.team1_name;
         let team2_name = req.body.team2_name;
